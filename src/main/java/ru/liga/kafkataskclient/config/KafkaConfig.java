@@ -8,6 +8,7 @@ import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
@@ -28,6 +29,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
+@EnableKafka
 @Configuration
 public class KafkaConfig {
 
@@ -39,13 +41,10 @@ public class KafkaConfig {
 
     @Bean
     public ConsumerFactory<String, TaskDto> consumerFactory() {
-        JsonDeserializer<TaskDto> taskDtoJsonDeserializer = new JsonDeserializer<>(TaskDto.class);
-        taskDtoJsonDeserializer.addTrustedPackages("*");
-        taskDtoJsonDeserializer.setRemoveTypeHeaders(true);
         return new DefaultKafkaConsumerFactory<>(
                 consumerConfigs(),
                 new StringDeserializer(),
-                taskDtoJsonDeserializer
+                new JsonDeserializer<>(TaskDto.class)
         );
     }
 
@@ -70,9 +69,11 @@ public class KafkaConfig {
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "95.163.249.227:28082");
+        props.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
+        props.put(JsonDeserializer.REMOVE_TYPE_INFO_HEADERS, true);
+        props.put(JsonDeserializer.USE_TYPE_INFO_HEADERS, false);
         props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, true);
         props.put(ConsumerConfig.ALLOW_AUTO_CREATE_TOPICS_CONFIG, false);
-        props.put(ConsumerConfig.)
         return props;
     }
 }

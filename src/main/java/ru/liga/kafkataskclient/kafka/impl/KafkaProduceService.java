@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import ru.liga.kafkataskclient.dto.AnswerDto;
-import ru.liga.kafkataskclient.dto.TaskDto;
 import ru.liga.kafkataskclient.kafka.MessageProducer;
 
 @Service

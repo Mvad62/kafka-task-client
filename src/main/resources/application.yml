@@ -1,2 +1,13 @@
 server:
   port: 8081
+
+spring:
+  kafka:
+    bootstrap-servers: 95.163.249.227:28082
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+    topic:
+      out-answer-task-1-topic: out-answer-task-1-topic
+      
